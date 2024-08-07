@@ -26,6 +26,6 @@ jobs:
         python-version: "3.11"
 
     - name: Dump Github Context using python
-      run: python $GITHUB_WORKSPACE/main.py $github
+      run: python $GITHUB_WORKSPACE/main.py ${{ github }}
         
 
