@@ -1,0 +1,20 @@
+name: Print GitHub Events
+
+on:
+  push:
+    branches:
+      - "*"
+jobs:
+  printEvents:
+    name: print event
+    runs-on: ubuntu-latest
+    steps:
+    - name: Dump Github Context
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+      run: |
+        echo $GITHUB_CONTEXT
+
+    - name: print event json
+      run: |
+        echo $github
