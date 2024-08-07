@@ -13,11 +13,14 @@ jobs:
       env:
         GITHUB_CONTEXT: ${{ toJson(github) }}
       run: |
-        echo $GITHUB_CONTEXT
+        echo $PWD
 
-    - name: Dump Github Context
-      env:
-        GITHUB_COMMITS: ${{ toJson(github.commits) }}
-      run: |
-        echo $GITHUB_COMMITS
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.11"
+
+    - name: Dump Github Context using python
+      run: python $GITHUB_WORKSPACE/main.py $github
+        
 
