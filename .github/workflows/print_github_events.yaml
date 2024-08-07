@@ -15,6 +15,9 @@ jobs:
       run: |
         echo $GITHUB_CONTEXT
 
-    - name: print event json
+    - name: Dump Github Context
+      env:
+        GITHUB_COMMITS: ${{ toJson(github.commits) }}
       run: |
-        echo $github
+        echo $GITHUB_COMMITS
+
