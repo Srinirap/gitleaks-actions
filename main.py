@@ -8,4 +8,5 @@ def parse_json(json_string):
 
 
 if __name__ == "__main__":
+    print(sys.argv)
     parse_json(sys.argv[1])
