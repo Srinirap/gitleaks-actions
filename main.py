@@ -4,7 +4,7 @@ import json
 
 def parse_json(json_string):
     print("Printing json content")
-    print(json.loads(json_string))
+    print(json.dumps(json_string))
 
 
 if __name__ == "__main__":
