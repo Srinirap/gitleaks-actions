@@ -13,6 +13,9 @@ def get_commits(event_name="pull_request"):
 
     print(base_url, gh_token, event_type, owner, repo, event_json_path)
 
+    json_data = json.load(open(event_json_path))
+    print(json_data)
+
 
 if __name__ == "__main__":
     print(sys.argv)
