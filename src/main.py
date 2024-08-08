@@ -67,7 +67,8 @@ class GitLeaksAction:
         # tar = tarfile.open(file_path)
         # tar.extractall(path=temp_dir)
         # tar.close()
-        subprocess.check_output(f"cd {temp_dir} && tar xvf {filename}", shell=True)
+        output = subprocess.check_output(f"cd {temp_dir} && tar xvfz {filename}", shell=True)
+        print(output)
         print(f"Downloaded gitleaks here: {file_path}")
 
         self.gitleaks_bin = os.path.join(temp_dir, "gitleaks")
