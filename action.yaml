@@ -12,6 +12,10 @@ runs:
       with:
         python-version: "3.11"
 
+    - name: print github values
+      run: echo "${{ toJSON(github) }}"
+      shell: bash
+
     - name: Run Gitleaks scan
       run: python src/main.py
       shell: bash
