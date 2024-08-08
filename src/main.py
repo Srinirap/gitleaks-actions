@@ -98,7 +98,7 @@ class GitLeaksAction:
             "base_ref": commits[0]["sha"],
             "head_ref": commits[len(commits) - 1]["sha"],
         }
-        log_cmd = f"--log-opts=--no-merges --first-parent {scan_info['base_ref']}^..{scan_info['head_ref']}"
+        log_cmd = f"--log-opts=--no-merges {scan_info['base_ref']}^..{scan_info['head_ref']}"
         self.gitleaks_args.append(log_cmd)
 
     def gitleaks_scan(self):
