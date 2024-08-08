@@ -61,13 +61,13 @@ class GitLeaksAction:
         file_path = os.path.join(temp_dir, filename)
 
         with open(file_path, "wb") as infile:
-            resp = requests.get(release_url, stream=True)
+            resp = requests.get(release_url)
             infile.write(resp.raw.read())
 
-        tar = tarfile.open(file_path)
-        tar.extractall(path=temp_dir)
-        tar.close()
-        # output = subprocess.check_output(f"cd {temp_dir} && tar xvfz {filename}", shell=True)
+        # tar = tarfile.open(file_path)
+        # tar.extractall(path=temp_dir)
+        # tar.close()
+        output = subprocess.check_output(f"cd {temp_dir} && tar xvf {filename}", shell=True)
         # print(output)
         print(f"Downloaded gitleaks here: {file_path}")
 
