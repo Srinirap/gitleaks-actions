@@ -62,7 +62,7 @@ class GitLeaksAction:
 
         with open(file_path, "wb") as infile:
             resp = requests.get(release_url)
-            infile.write(resp.content)
+            infile.write(resp.raw.read())
 
         # tar = tarfile.open(file_path)
         # tar.extractall(path=temp_dir)
