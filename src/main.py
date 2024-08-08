@@ -1,6 +1,8 @@
 import os
 import sys
 import json
+import tarfile
+import tempfile
 import subprocess
 import requests
 
@@ -8,6 +10,11 @@ import requests
 class GitLeaksAction:
     def __init__(self):
         print("Gitleaks class...")
+        self.gitleaks_version = "8.16.4"
+        self.platform = os.uname().sysname
+        self.arch = os.uname().machine
+        self.gitleaks_bin = None
+
         self.base_url = os.environ["GITHUB_API_URL"]
         self.gh_token = os.environ["GITHUB_TOKEN"]
         self.event_type = os.environ["GITHUB_EVENT_NAME"]
@@ -32,6 +39,39 @@ class GitLeaksAction:
             "--report-path=results.sarif",
             "--log-level=debug",
         ]
+
+    def gitleaks_release_url(self):
+        base_url = "https://github.com/zricethezav/gitleaks/releases/download"
+        if self.platform == "win32":
+            self.platform = "windows"
+        return f"{base_url}/v{self.gitleaks_version}/gitleaks_{self.gitleaks_version}_{self.platform}_{self.arch}.tar.gz"
+
+    def install_gitleaks(self):
+        release_url = self.gitleaks_release_url()
+        print(f"Downloading {release_url}")
+
+        temp_dir = os.path.join(tempfile.gettempdir(), "gitleaks")
+        print(f"Creating temp dir {temp_dir}")
+        os.makedirs(temp_dir, exist_ok=True)
+
+        filename = release_url.split("/")[-1]
+        file_path = os.path.join(temp_dir, filename)
+
+        with open(file_path, "wb") as infile:
+            resp = requests.get(release_url)
+            infile.write(resp.content)
+
+        tar = tarfile.open(filename)
+        tar.extractall(path=temp_dir)
+        tar.close()
+        print(f"Downloaded gitleaks here: {file_path}")
+
+        self.gitleaks_bin = os.path.join(temp_dir, "gitleaks")
+
+        output = subprocess.check_output(
+            f"{self.gitleaks_bin} version", shell=True, text=True
+        )
+        print(f"gitleaks installed successfully with version: {output}")
 
     def get_commits(self):
         if self.event_type == "pull_request":
@@ -59,11 +99,13 @@ class GitLeaksAction:
     def gitleaks_scan(self):
 
         if self.event_type == "pull_request":
+            self.install_gitleaks()
             self.get_pull_request_commits()
 
-        cmd = f"gitleaks {' '.join(self.gitleaks_args)}"
+        cmd = f"{self.gitleaks_bin} {' '.join(self.gitleaks_args)}"
         print(cmd)
-        subprocess.run(cmd, shell=True)
+        output = subprocess.check_output(cmd, shell=True)
+        print(output)
 
     def get_push_commits(self):
         raise NotImplementedError
