@@ -16,9 +16,9 @@ runs:
       run: pip install -r src/requirements.txt
       shell: bash
 
-    - name: print github values
-      run: echo "${{ toJSON(github) }}"
-      shell: bash
+#    - name: print github values
+#      run: echo "${{ toJSON(github) }}"
+#      shell: bash
 
     - name: Run Gitleaks scan
       run: python src/main.py
