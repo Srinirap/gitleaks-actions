@@ -64,7 +64,7 @@ class GitLeaksAction:
             resp = requests.get(release_url)
             infile.write(resp.content)
 
-        tar = tarfile.open(filename)
+        tar = tarfile.open(file_path)
         tar.extractall(path=temp_dir)
         tar.close()
         print(f"Downloaded gitleaks here: {file_path}")
