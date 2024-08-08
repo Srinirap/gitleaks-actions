@@ -16,9 +16,17 @@ runs:
       run: pip install -r src/requirements.txt
       shell: bash
 
-#    - name: print github values
-#      run: echo "${{ toJSON(github) }}"
-#      shell: bash
+    - name: Download and install gitleaks
+      shell: bash
+      run: |
+        set -x
+        wget https://github.com/gitleaks/gitleaks/releases/download/v8.18.4/gitleaks_8.18.4_linux_x64.tar.gz
+        tar -xvfz gitleaks_8.18.4_linux_x64.tar.gz
+        ls
+        pwd
+        mv gitleaks /usr/local/bin/
+        
+
 
     - name: Run Gitleaks scan
       run: python src/main.py
