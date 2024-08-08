@@ -11,7 +11,7 @@ class GitLeaksAction:
     def __init__(self):
         print("Gitleaks class...")
         self.gitleaks_version = "8.16.4"
-        self.platform = os.uname().sysname
+        self.platform = os.uname().sysname.lower()
         self.arch = os.uname().machine
         self.gitleaks_bin = None
 
@@ -44,6 +44,9 @@ class GitLeaksAction:
         base_url = "https://github.com/zricethezav/gitleaks/releases/download"
         if self.platform == "win32":
             self.platform = "windows"
+
+        if self.arch.startswith("x86_"):
+            self.arch = self.arch.replace("x86_", "")
         return f"{base_url}/v{self.gitleaks_version}/gitleaks_{self.gitleaks_version}_{self.platform}_{self.arch}.tar.gz"
 
     def install_gitleaks(self):
