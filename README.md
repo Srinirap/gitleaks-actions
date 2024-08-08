@@ -1,0 +1,2 @@
+# gitleaks-actions
+Github actions
