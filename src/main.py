@@ -13,32 +13,32 @@ class GitLeaksAction:
         self.gitleaks_version = "8.16.4"
         self.platform = os.uname().sysname.lower()
         self.arch = os.uname().machine
-        self.gitleaks_bin = None
+        self.gitleaks_bin = "gitleaks"
 
-        # self.base_url = os.environ["GITHUB_API_URL"]
-        # self.gh_token = os.environ["GITHUB_TOKEN"]
-        # self.event_type = os.environ["GITHUB_EVENT_NAME"]
-        # self.owner, self.repo = os.environ["GITHUB_REPOSITORY"].rsplit("/")
-        # event_json_path = os.environ["GITHUB_EVENT_PATH"]
-        #
-        # with open(event_json_path, "r") as f:
-        #     self.gh_events = json.loads(f.read())
-        #
-        # self.headers = {
-        #     "Accept": "application/vnd.github+json",
-        #     "Authorization": f"Bearer {self.gh_token}",
-        #     "X-GitHub-Api-Version": "2022-11-28",
-        # }
-        #
-        # self.gitleaks_args = [
-        #     "detect",
-        #     "--redact",
-        #     "-v",
-        #     "--exit-code=2",
-        #     "--report-format=sarif",
-        #     "--report-path=results.sarif",
-        #     "--log-level=debug",
-        # ]
+        self.base_url = os.environ["GITHUB_API_URL"]
+        self.gh_token = os.environ["GITHUB_TOKEN"]
+        self.event_type = os.environ["GITHUB_EVENT_NAME"]
+        self.owner, self.repo = os.environ["GITHUB_REPOSITORY"].rsplit("/")
+        event_json_path = os.environ["GITHUB_EVENT_PATH"]
+
+        with open(event_json_path, "r") as f:
+            self.gh_events = json.loads(f.read())
+
+        self.headers = {
+            "Accept": "application/vnd.github+json",
+            "Authorization": f"Bearer {self.gh_token}",
+            "X-GitHub-Api-Version": "2022-11-28",
+        }
+
+        self.gitleaks_args = [
+            "detect",
+            "--redact",
+            "-v",
+            "--exit-code=2",
+            "--report-format=sarif",
+            "--report-path=results.sarif",
+            "--log-level=debug",
+        ]
 
     def gitleaks_release_url(self):
         base_url = "https://github.com/zricethezav/gitleaks/releases/download"
@@ -104,7 +104,7 @@ class GitLeaksAction:
     def gitleaks_scan(self):
 
         if self.event_type == "pull_request":
-            self.install_gitleaks()
+            # self.install_gitleaks()
             self.get_pull_request_commits()
 
         cmd = f"{self.gitleaks_bin} {' '.join(self.gitleaks_args)}"
@@ -117,4 +117,4 @@ class GitLeaksAction:
 
 
 if __name__ == "__main__":
-    GitLeaksAction().install_gitleaks()
+    GitLeaksAction().gitleaks_scan()

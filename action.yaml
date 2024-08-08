@@ -27,6 +27,7 @@ runs:
         ls
         pwd
         mv gitleaks /usr/local/bin/
+        gitleaks version
 
     - name: Run Gitleaks scan
       run: python src/main.py
