@@ -111,7 +111,7 @@ class GitLeaksAction:
         print(cmd)
         output = subprocess.run(cmd, shell=True)
 
-        with open('results.sarif', 'w') as outfile:
+        with open('results.sarif', 'r') as outfile:
             for line in outfile.readlines():
                 print(line)
 
