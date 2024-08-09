@@ -1,8 +1,8 @@
 name: Gitleaks workflow
 on:
-  push:
   pull_request:
   workflow_dispatch:
+
 jobs:
   run-gitleaks:
     runs-on: ubuntu-latest
@@ -12,5 +12,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Scanning
-#        uses: ./ # Uses an action in the root directory
-        uses: Srinirap/gitleaks-actions@v1
+        uses: ./ # Uses an action in the root directory
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        uses: Srinirap/gitleaks-actions@v1
