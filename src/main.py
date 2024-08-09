@@ -112,7 +112,7 @@ class GitLeaksAction:
         output = subprocess.run(cmd, shell=True)
 
         with open('results.sarif', 'w') as outfile:
-            for line in output.readlines():
+            for line in outfile.readlines():
                 print(line)
 
     def get_push_commits(self):
