@@ -109,8 +109,11 @@ class GitLeaksAction:
 
         cmd = f"{self.gitleaks_bin} {' '.join(self.gitleaks_args)}"
         print(cmd)
-        output = subprocess.check_output(cmd, shell=True)
-        print(output)
+        output = subprocess.run(cmd, shell=True)
+
+        with open('results.sarif', 'w') as outfile:
+            for line in output.readlines():
+                print(line)
 
     def get_push_commits(self):
         raise NotImplementedError
