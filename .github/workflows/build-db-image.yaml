@@ -7,6 +7,10 @@ on:
         description: 'enter the image tag'
         required: true
         type: string
+      environment:
+        description: 'Environment to run tests against'
+        type: environment
+        required: true
 
 jobs:
   build-image:
@@ -15,4 +19,13 @@ jobs:
     steps:
       - name: build docker image
         run: |
-          echo "Building docker image" 
+          echo "Building docker image"
+
+  deploy-image:
+    name: deploy image
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Deploying docker image
+        run: |
+          echo "Deploying docker image"
