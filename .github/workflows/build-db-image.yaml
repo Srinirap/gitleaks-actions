@@ -25,7 +25,7 @@ jobs:
     name: deploy image
     needs: build-image
     runs-on: ubuntu-latest
-    # environment: ${{ inputs.environment }}
+    environment: test
     steps:
       - name: Deploying docker image
         run: |
