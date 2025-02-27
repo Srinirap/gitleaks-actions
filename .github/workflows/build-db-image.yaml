@@ -23,6 +23,7 @@ jobs:
 
   deploy-image:
     name: deploy image
+    needs: build-image
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     steps:
