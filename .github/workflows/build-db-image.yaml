@@ -21,6 +21,14 @@ jobs:
         run: |
           echo "Building docker image"
 
+  run-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Running Test
+        run: |
+          echo "Running Test"
+          exit 1
+
   deploy-image:
     name: deploy image
     needs: build-image
