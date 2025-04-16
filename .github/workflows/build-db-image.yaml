@@ -29,8 +29,9 @@ jobs:
           echo "Running Test"
           exit 1
 
-  deploy-image:
-    name: deploy image
+  deploy-image-auto:
+    name: deploy image auto
+    if: always()
     needs: [ build-image, run-test ]
     runs-on: ubuntu-latest
     # environment: stage
@@ -40,3 +41,18 @@ jobs:
           echo "Deploying docker image"
           echo "${{ needs.build-image.result }}"
           echo "${{ needs.run-test.result }}"
+
+
+  deploy-image-exception:
+    name: deploy image exception
+    if: always()
+    needs: [ build-image, run-test ]
+    runs-on: ubuntu-latest
+    environment: stage
+    steps:
+      - name: Deploying docker image
+        run: |
+          echo "Deploying docker image"
+          echo "${{ needs.build-image.result }}"
+          echo "${{ needs.run-test.result }}"
+          echo "${{ needs.deploy-image-auto.result }}"
