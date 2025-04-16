@@ -33,8 +33,10 @@ jobs:
     name: deploy image
     needs: [ build-image, run-test ]
     runs-on: ubuntu-latest
-    environment: stage
+    # environment: stage
     steps:
       - name: Deploying docker image
         run: |
           echo "Deploying docker image"
+          echo "${{ needs.build-image.result }}"
+          echo "${{ needs.run-test.result }}"
