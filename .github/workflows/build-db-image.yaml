@@ -2,11 +2,11 @@ name: build docker image
 
 on:
   workflow_dispatch:
-    inputs: 
-      image_tag:
-        description: 'enter the image tag'
-        required: true
-        type: string
+    # inputs: 
+    #   image_tag:
+    #     description: 'enter the image tag'
+    #     required: true
+    #     type: string
       # environment:
       #   description: 'Environment to run tests against'
       #   type: environment
@@ -31,7 +31,7 @@ jobs:
 
   deploy-image:
     name: deploy image
-    needs: build-image
+    needs: [ build-image, run-test ]
     runs-on: ubuntu-latest
     environment: stage
     steps:
